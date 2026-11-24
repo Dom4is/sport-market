@@ -1,0 +1,20 @@
+services:
+  db:
+    image: postgres:17-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: tropa
+      POSTGRES_USER: tropa
+      POSTGRES_PASSWORD: tropa_dev_password
+    ports:
+      - "5432:5432"
+    volumes:
+      - tropa-postgres:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U tropa -d tropa"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+volumes:
+  tropa-postgres:
